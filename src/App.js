@@ -24,14 +24,28 @@ function App() {
         setDatas(datas)
         let endIndex = pageSize * currentPage;
         let startIndex = endIndex - pageSize
-        let allShowTodo = datas.slice(startIndex, endIndex)
+        let allShowTodo = datas.slice(startIndex, endIndex) //slice data 
         setPaginatedTodos(allShowTodo)
 
       })
-  }, [currentPage])
+  }, [])
+
+
   const pagesCount = Math.ceil(datas.length / pageSize)
   let pageNumbers = Array.from(Array(pagesCount).keys())//create array with 20 item in this
 
+  useEffect(() => {
+    let endIndex = pageSize * currentPage;
+    let startIndex = endIndex - pageSize
+    let allShowTodo = datas.slice(startIndex, endIndex) //slice data 
+    setPaginatedTodos(allShowTodo)
+  }, [currentPage])
+
+  const changeCurrentpage = (newPage) => {
+    //change currentpage and slice data with pagesize and currentpage
+    setCurrentPage(newPage)
+
+  }
 
   return (
 
@@ -63,7 +77,7 @@ function App() {
       <Pagination className='d-flex justify-content-center'>
         {pageNumbers.map(pageNumber => (
           <Pagination.Item active={currentPage === pageNumber + 1 ? true : false}
-            onClick={() => setCurrentPage(pageNumber + 1)}
+            onClick={() => changeCurrentpage(pageNumber + 1)}
             key={pageNumber + 1}
           >{pageNumber + 1}</Pagination.Item>
         ))}
